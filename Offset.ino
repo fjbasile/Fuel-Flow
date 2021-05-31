@@ -7,6 +7,9 @@ unsigned long tempTime;
 unsigned long stopPulseHighTime;
 unsigned long stopPulseLowTime;
 
+int sensorPin = A1;
+int sensorValue = 0;
+
 int delayTime = 2000;
 int offsetTime = 250;
 int pulseWidth = 500;
@@ -23,10 +26,16 @@ void setup()
   CircuitPlayground.begin();
   CircuitPlayground.strip.begin();\
   stopPulseTriggered = false;
+  //Serial.begin(9600); //for debugging
 }
 
 void loop()
 {
+  //reads the value from the rheostat
+  sensorValue = analogRead(sensorPin);
+  //Serial.println(sensorValue); //for debugging
+  offsetTime = sensorValue / 5.0; //adjusts the offset time based on voltage input
+  
   currentTime = millis();
   
   //time delay for the first pulse
